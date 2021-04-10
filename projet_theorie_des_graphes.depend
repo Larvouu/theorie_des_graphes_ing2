@@ -1,0 +1,34 @@
+# depslib dependency file v1.0
+1618057484 source:c:\users\ghias\desktop\projet_theorie_des_graphes\main.cpp
+	<iostream>
+	"Graphe.h"
+
+1618057484 c:\users\ghias\desktop\projet_theorie_des_graphes\include\graphe.h
+	<vector>
+	<string>
+	<iostream>
+	"Sommet.h"
+	"Arc.h"
+
+1618057484 c:\users\ghias\desktop\projet_theorie_des_graphes\include\sommet.h
+	<string>
+	<vector>
+	<set>
+
+1618057484 c:\users\ghias\desktop\projet_theorie_des_graphes\include\arc.h
+	"Sommet.h"
+	<iostream>
+
+1618057484 source:c:\users\ghias\desktop\projet_theorie_des_graphes\src\arc.cpp
+	"Arc.h"
+
+1618057484 source:c:\users\ghias\desktop\projet_theorie_des_graphes\src\graphe.cpp
+	"Graphe.h"
+	<fstream>
+	<set>
+	<queue>
+
+1618057484 source:c:\users\ghias\desktop\projet_theorie_des_graphes\src\sommet.cpp
+	"Sommet.h"
+	<iostream>
+
