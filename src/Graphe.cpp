@@ -1,10 +1,12 @@
 #include "Graphe.h"
 #include <fstream>
-#include <set> //au cas o˘, sil ‡ l'affichage on ne veut pas de doublons pour les successeurs
-//vu qu'il y a potentiellement plusieurs pistes d'un sommet ‡ l'autre
+#include <set> //au cas o√π, sil √† l'affichage on ne veut pas de doublons pour les successeurs
+//vu qu'il y a potentiellement plusieurs pistes d'un sommet √† l'autre
 #include <queue> //pour BFS
 
-//HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);//Ici, on rÈcupËre un handle vers ce qui reprÈsente la sortie standard sous Windows.
+//HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);//Ici, on r√©cup√®re un handle vers ce qui repr√©sente la sortie standard sous Windows.
+
+using namespace std;
 
 ///constructeur
 Graphe::Graphe(std::string nomFichier)
@@ -101,10 +103,10 @@ void Graphe::AffichageArc()
     }
 }
 
-///mÈthode permettant ‡ l'utilisateur de savoir d'o˘ il part et o˘ il arrive
+///m√©thode permettant √† l'utilisateur de savoir d'o√π il part et o√π il arrive
 void Graphe::infoArc()
 {
-    int Num_Arc = 0; // variable contenant le numÈro de l'arc saisie
+    int Num_Arc = 0; // variable contenant le num√©ro de l'arc saisie
     int Num_Arc2 = 0; // variable tempon pour blindage
     bool Num_Trouve = false;
 
@@ -112,11 +114,11 @@ void Graphe::infoArc()
     std::cin >> Num_Arc;
 
 
-    while(Num_Trouve == false) // tant que l'arc n'a pas ÈtÈ trouvÈ
+    while(Num_Trouve == false) // tant que l'arc n'a pas √©t√© trouv√©
     {
         for(auto a : m_arc) //a pour arc; on parcourt le vector d'arc
         {
-            if(Num_Arc == a->getNumero()) // si le numÈro existe dans le vector
+            if(Num_Arc == a->getNumero()) // si le num√©ro existe dans le vector
             {
                 std::cout << "\nVous avez choisi le trajet suivant :" << std::endl;
                 std::cout << "Numero: " << a->getNumero() << "\nNom: " << a->getNom() << "\nType: " << a->getType()<< std::endl;
@@ -124,7 +126,7 @@ void Graphe::infoArc()
                 std::cout << "Point d'arrivee: " << a->getSommetAdj().second->getNom() << " (" << a->getSommetAdj().second->getNumero() << ")" << std::endl;
                 std::cout << "Duree entre ces deux points: " << a->getDuree()  << " minute(s)" <<std::endl;
 
-                Num_Trouve = true; // alors on a trouvÈ l'arc
+                Num_Trouve = true; // alors on a trouv√© l'arc
                 break;
             }
 
@@ -133,13 +135,13 @@ void Graphe::infoArc()
                 std::cout << "\nCe trajet n'existe pas.\nVeuillez saisir a nouveau: ";
                 std::cin >> Num_Arc2;
                 Num_Arc = Num_Arc2;
-                Num_Trouve = false; // on n'a toujours pas trouvÈ l'arc
+                Num_Trouve = false; // on n'a toujours pas trouv√© l'arc
             }
         }
     }
 }
 
-///Pour connaÓtre les arcs/trajets entrants et sortants ‡ un sommet choisi
+///Pour conna√Ætre les arcs/trajets entrants et sortants √† un sommet choisi
 void Graphe::infoSommet()
 {
 
@@ -171,12 +173,12 @@ void Graphe::infoSommet()
     /*Premiere boucle pour trouver les sommets sortants*/
     for(auto elem : m_arc) //on parcourt la liste des arcs du graphe
     {
-        if(elem->getSommetAdj().first->getNumero() == numSomChoisi) //si le numÈro du sommet choisi correspond ‡ la premiËre extrÈmitÈ
-            //alors le trajet est forcÈment sortant
+        if(elem->getSommetAdj().first->getNumero() == numSomChoisi) //si le num√©ro du sommet choisi correspond √† la premi√®re extr√©mit√©
+            //alors le trajet est forc√©ment sortant
         {
             std::cout<<"Ce trajet se dirigeant vers : "<<elem->getSommetAdj().second->getNom()<<" s'appelle : "<<elem->getNom();
 
-            /*Conditions pour donnÈ le nom du type de trajet */
+            /*Conditions pour donn√© le nom du type de trajet */
             if((elem->getType()) == "V")
                 std::cout<<" et c'est une piste verte.";
 
@@ -223,13 +225,13 @@ void Graphe::infoSommet()
     std::cout<<std::endl;
 
     /*Deuxieme boucle pour trouver les somments entrant*/
-    for(auto elem : m_arc) //mÍme dÈmarche
+    for(auto elem : m_arc) //m√™me d√©marche
     {
         if(elem->getSommetAdj().second->getNumero() == numSomChoisi)
         {
             std::cout<<"Ce trajet arrive de : "<<elem->getSommetAdj().first->getNom()<<" s'appelle : "<<elem->getNom();
 
-            /*Conditions pour donnÈ le nom du type de trajet */
+            /*Conditions pour donn√© le nom du type de trajet */
             if((elem->getType()) == "V")
                 std::cout<<" et c'est une piste verte.";
 
@@ -273,7 +275,7 @@ void Graphe::infoSommet()
 }
 
 
-/// mÈthode qui permet d'obtenir le chemin le plus interessant (montÈes/descentes)
+/// m√©thode qui permet d'obtenir le chemin le plus interessant (mont√©es/descentes)
 void Graphe::chemin_interessant()
 {
     int niveau = 3;
@@ -290,7 +292,7 @@ void Graphe::chemin_interessant()
     {
         interet[i] = +10*i;
     }
-    for(int i = 7; i<=12; i++) // negatif si remontÈe
+    for(int i = 7; i<=12; i++) // negatif si remont√©e
     {
         interet[i] = -10*i;
     }*/
@@ -342,7 +344,7 @@ void Graphe::chemin_interessant()
                 // si c + que le premier choix (k>0)
                 else if(k>0)
                 {
-                    // parcours du vecteur dÈj‡ rempli auparavant pour k=0
+                    // parcours du vecteur d√©j√† rempli auparavant pour k=0
                     for(unsigned int j=0; j<arcs_tries.size(); j++)
                     {
                         // si le choix de l'utilisateur est parmi le vecteur rempli auparavant
@@ -407,7 +409,7 @@ void Graphe::chemin_interessant()
                 // si c + que le premier choix (k>0)
                 else if(k>0)
                 {
-                    // parcours du vecteur dÈj‡ rempli auparavant pour k=0
+                    // parcours du vecteur d√©j√† rempli auparavant pour k=0
                     for(unsigned int j=0; j<arcs_tries.size(); j++)
                     {
                         // si le choix de l'utilisateur est parmi le vecteur rempli auparavant
@@ -471,7 +473,7 @@ void Graphe::chemin_interessant()
                 // si c + que le premier choix (k>0)
                 else if(k>0)
                 {
-                    // parcours du vecteur dÈj‡ rempli auparavant pour k=0
+                    // parcours du vecteur d√©j√† rempli auparavant pour k=0
                     for(unsigned int j=0; j<arcs_tries.size(); j++)
                     {
                         // si le choix de l'utilisateur est parmi le vecteur rempli auparavant
@@ -510,21 +512,21 @@ void Graphe::saisi_depart_arrivee(std::vector<Arc*>arcs_tries)
 /// algo de Kruskal
 void Graphe::Kruskal(int x1, int x2, std::vector<Arc*>arcs_tries)
 {
-    std::vector <Arc*> arc_final; // vector qui stock tous les arcs qui vont Ítre affichÈs
-    bool fin = false; // boolÈen devient true lorsque on a atteint x2
+    std::vector <Arc*> arc_final; // vector qui stock tous les arcs qui vont √™tre affich√©s
+    bool fin = false; // bool√©en devient true lorsque on a atteint x2
 
     while((arc_final.size() <(unsigned int)m_nbrSommet -1) && (fin==false))
     {
 
-        int MIN=9999; // initialisation par dÈfaut
+        int MIN=9999; // initialisation par d√©faut
         int act; // variable pour stocker l'arc
 
         // recherche de la plus petite arc
         for(unsigned int i =0 ; i<arcs_tries.size(); i++)
         {
-            if(arcs_tries[i]->getSommetAdj().first->getNumero() == x1) // on dÈtecte le sommet de dÈpart dans le vector d'arc
+            if(arcs_tries[i]->getSommetAdj().first->getNumero() == x1) // on d√©tecte le sommet de d√©part dans le vector d'arc
             {
-                if(arcs_tries[i]->getDuree() < MIN) // on prend l'arc qui a la plus petite pondÈration
+                if(arcs_tries[i]->getDuree() < MIN) // on prend l'arc qui a la plus petite pond√©ration
                 {
                     act=i; // on stock cet arc
                     MIN = arcs_tries[i]->getDuree();
@@ -534,7 +536,7 @@ void Graphe::Kruskal(int x1, int x2, std::vector<Arc*>arcs_tries)
 
 
 
-        // vÈrifie si l'arc ne fait pas de boucle
+        // v√©rifie si l'arc ne fait pas de boucle
         if(arcs_tries[act]->getSommetAdj().first->verif_connexe(arcs_tries[act]->getSommetAdj().second) == true)
         {
             arc_final.push_back(arcs_tries[act]); // on met cet arc dans un vector
@@ -546,32 +548,32 @@ void Graphe::Kruskal(int x1, int x2, std::vector<Arc*>arcs_tries)
 
             for(unsigned int i=0 ; i<arcs_tries[act]->getSommetAdj().first->getConnexe().size() ; i++)
             {
-                // ajout connexitÈ sommet2 avec sommet1
+                // ajout connexit√© sommet2 avec sommet1
                 arcs_tries[act]->getSommetAdj().second->addConnexe(arcs_tries[act]->getSommetAdj().first->getConnexe()[i]);
             }
 
             for(unsigned int i=0 ; i<arcs_tries[act]->getSommetAdj().second->getConnexe().size() ; i++)
             {
-                // ajout connexitÈ sommet1 avec sommet2
+                // ajout connexit√© sommet1 avec sommet2
                 arcs_tries[act]->getSommetAdj().first->addConnexe(arcs_tries[act]->getSommetAdj().second->getConnexe()[i]);
             }
 
-            if(arcs_tries[act]->getSommetAdj().second->getNumero() == x2) // si l'extrÈmitÈ 2 est le sommet x2 saisi par l'utilisateur
+            if(arcs_tries[act]->getSommetAdj().second->getNumero() == x2) // si l'extr√©mit√© 2 est le sommet x2 saisi par l'utilisateur
             {
                 fin = true; // alors on sort de la boucle while
             }
 
         }
-        //supprimer l'arc sÈlÈctionnÈe du vector de base
+        //supprimer l'arc s√©l√©ctionn√©e du vector de base
         arcs_tries.erase(arcs_tries.begin()+ act);
     }
 
-    // affichage des arcs conservÈes (final)
+    // affichage des arcs conserv√©es (final)
     std::cout <<std::endl << "\nARCS CONSERVEES : "<<std::endl;
     int poids=0;
     for(unsigned int i =0 ; i<arc_final.size(); i++)
     {
-        poids=poids+arc_final[i]->getDuree(); // on rÈcupËre le poids final (pondÈration de tous les arcs sÈlÈctionnÈes)
+        poids=poids+arc_final[i]->getDuree(); // on r√©cup√®re le poids final (pond√©ration de tous les arcs s√©l√©ctionn√©es)
         std::cout << arc_final[i]->getSommetAdj().first->getNumero() << " --> " <<  arc_final[i]->getSommetAdj().second->getNumero() << "   Poids: " << arc_final[i]->getDuree();
         std::cout << "   Type : " << arc_final[i]->getType() << std::endl;
     }
@@ -823,11 +825,11 @@ void Graphe::Menu()
     }
 
 
-//HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);//Ici, on rÈcupËre un handle vers ce qui reprÈsente la sortie standard sous Windows.
+//HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);//Ici, on r√©cup√®re un handle vers ce qui repr√©sente la sortie standard sous Windows.
 //SetConsoleTextAttribute(consoleHandle, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_INTENSITY | BACKGROUND_RED | BACKGROUND_INTENSITY);
 //Ici, on change les attributs. Tu as droit aux 3 couleurs primaire informatique (rouge, vert et bleu)
-//que tu peux mÈlanger entre elle pour faire plus de couleurs (par exemple vert + bleu = jaune)...Tu peux coupler ces mÈlanges de couleur avec une intensitÈ de couleur
-// plus ÈlevÈ avec INTENSITY...Pour l'exemple du jaune, ca passerait d'un jaune sale ‡ un jaune lumineux. Ici, Áa met du blanc flashy sur fond rouge flashy.
+//que tu peux m√©langer entre elle pour faire plus de couleurs (par exemple vert + bleu = jaune)...Tu peux coupler ces m√©langes de couleur avec une intensit√© de couleur
+// plus √©lev√© avec INTENSITY...Pour l'exemple du jaune, ca passerait d'un jaune sale √† un jaune lumineux. Ici, √ßa met du blanc flashy sur fond rouge flashy.
 
     /*std::cout << "La boutique se compose donc de : " << std::endl << std::endl;
         SetConsoleTextAttribute(hConsole, 12);
@@ -870,29 +872,28 @@ void Graphe::donneOrientation() //ou "affecteOrientation" car on ne fait que set
 
 }
 
-///Trouve les successeurs d'un sommet (on peut par exemple passer en paramËtre getSommetAdj.first)
-///Cette mÈthode donne les sommets successeurs, or pour le BFS on ne tient pas compte de la pondÈration et des diffÈrents trajets
+///Trouve les successeurs d'un sommet (on peut par exemple passer en param√®tre getSommetAdj.first)
+///Cette m√©thode donne les sommets successeurs, or pour le BFS on ne tient pas compte de la pond√©ration et des diff√©rents trajets
 ///du coup on peut virer les doublons (car potentiellement plusieurs trajets entre un sommet et un autre) et faire un set
 ///puisqu'on ne veut que les sommets.
-///Le BFS recherche le plus court chemin en nombre d'arcs, donc 1 seul trajet d'un sommet ‡ l'autre suffit
+///Le BFS recherche le plus court chemin en nombre d'arcs, donc 1 seul trajet d'un sommet √† l'autre suffit
 void Graphe::trouverSuccesseurs(int numeroExt1)
 {
     //on appelle donneOrientation pour affecter l'orientation des arcs
-    //donneOrientation(); Pas nÈcessaire finalement
+    //donneOrientation(); Pas n√©cessaire finalement
 
-    std::set<Sommet*> listeSucc; //set des successeurs pour Èviter doublons
+    std::set<Sommet*> listeSucc; //set des successeurs pour √©viter doublons
 
 
     for(auto elem : m_arc)
     {
         if (elem->getSommetAdj().first->getNumero()==numeroExt1)
         {
-            //on ajoute les successeurs du sommet actuel ‡ la liste
+            //on ajoute les successeurs du sommet actuel √† la liste
             listeSucc.insert(elem->getSommetAdj().second);
             //on l'ajoute aux m_successeurs
-            m_sommet[numeroExt1]->ajouterSuccesseur(elem->getSommetAdj().second);
+            m_sommet[numeroExt1-1]->ajouterSuccesseur(elem->getSommetAdj().second);
         }
-
     }
 
     //on affiche les successeurs du sommet
@@ -909,17 +910,18 @@ void Graphe::trouverSuccesseurs(int numeroExt1)
 void Graphe::parcoursBFS()
 {
     int numeroSommetDeDepart=-1;
-    std::vector<Sommet*> listePredecesseurs(m_nbrSommet); //stocke les numÈros des prÈdecesseurs, de taille l'ordre du graphe
+    std::vector<Sommet*> listePredecesseurs(m_nbrSommet); //stocke les num√©ros des pr√©decesseurs, de taille l'ordre du graphe
     for (int i=0; i<(int)listePredecesseurs.size(); ++i)
         listePredecesseurs[i] = nullptr;
 
-    std::queue <Sommet*> file;  //dÈclaration d'une file
 
-    //demande ‡ l'utilisateur le point de dÈpart (en le blindant
+    std::queue <Sommet*> file;  //d√©claration d'une file
+
+    //demande √† l'utilisateur le point de d√©part (en le blindant
     std::cout<<"A partir de quel sommet souhaitez vous demarrer ?"<<std::endl;
     std::cout<<std::endl;
 
-    while (numeroSommetDeDepart>=0 && numeroSommetDeDepart<=m_nbrSommet)
+    while (numeroSommetDeDepart<=0 || numeroSommetDeDepart>=m_nbrSommet)
     {
         std::cout<<"Saisir un numero valide : ";
         std::cin>>numeroSommetDeDepart;
@@ -934,6 +936,12 @@ void Graphe::parcoursBFS()
         }
     }
 
+///------------------lowl modificationw-------------///
+    for(auto elem : m_sommet)
+    {
+        trouverSuccesseurs(elem->getNumero());
+    }
+///fin des modificationws
 
     while (!(file.empty()))     ///Tant que la file n'est pas vide
     {
@@ -950,8 +958,33 @@ void Graphe::parcoursBFS()
         if (file.front()->getCouleur() == 1) //si le premier sommet de la file est gris
             file.front()->setCouleur(2); //on le passe en noir
 
-        file.pop(); //on dÈfile
+        file.pop(); //on d√©file
     }
 
-    //return listePredecesseurs;
+
+    ///------------------------------------PARTIE AFFICHAGE-------------------------------///
+    std::cout << "Parcours BFS a partir du sommet " << numeroSommetDeDepart <<std::endl;
+
+    int numPredecesseur =0;
+
+    for (int i=0; i<listePredecesseurs.size(); ++i)  ///Parcours du vecteur de predecesseur
+    {
+        if (listePredecesseurs[i]!= nullptr)
+        {
+            std::cout << i;
+            numPredecesseur = i;
+
+            while (listePredecesseurs[numPredecesseur]!=nullptr)     ///Tant que il existe des prÔøΩdecesseurs
+            {
+                std::cout << " <-- " << listePredecesseurs[numPredecesseur]->getNumero();
+                numPredecesseur = listePredecesseurs[numPredecesseur]->getNumero();
+            }
+            std::cout << std::endl;
+        }
+        else
+        {
+            cout<<"Sommet d'arrivee confondu avec le sommet de depart."<<endl;
+        }
+    }
+    std::cout << std::endl;
 }
